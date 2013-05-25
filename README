@@ -1,3 +1,15 @@
+MMAL README
+-----------
+This is an experimental version of motion that adds support for the
+Raspberry Pi's CSI camera module, via the MMAL API.
+
+As such, this branch has been stripped down to just the code and
+some supporting files, and does not at this time contain a means
+to build the code. Generated code files have been pre-created
+using the original's configure script (see config.h).
+
+Original README text
+--------------------
 Motion up to version 3.1.8 was created and maintained by Jeroen Vreeken.
 Versions 3.1.9-3.1.12 was maintained by Kenneth Lavrsen (http://www.lavrsen.dk/)
 and Folkert van Heusden (http://www.vanheusden.com/).
