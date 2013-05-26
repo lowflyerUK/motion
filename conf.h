@@ -130,6 +130,7 @@ struct config {
     unsigned int rtsp_uses_tcp;
 #ifdef HAVE_MMAL
     const char *mmalcam_name;
+    const char *mmalcam_control_params;
 #endif
     int text_changes;
     const char *text_left;
