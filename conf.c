@@ -151,6 +151,7 @@ struct config conf_template = {
     rtsp_uses_tcp:                  1,
 #ifdef HAVE_MMAL
     mmalcam_name:					NULL,
+    mmalcam_control_params:         NULL,
 #endif
     text_changes:                   0,
     text_left:                      NULL,
@@ -424,6 +425,7 @@ config_param config_params[] = {
     copy_bool,
     print_bool
     },
+#ifdef HAVE_MMAL
     {
     "rtsp_uses_tcp",
     "# RTSP connection uses TCP to communicate to the camera. Can prevent image corruption.\n"
@@ -442,6 +444,16 @@ config_param config_params[] = {
     copy_string,
     print_string
     },
+    {
+    "mmalcam_control_params",
+    "# Camera control parameters (see raspivid/raspistill tool documentation)\n"
+    " Default: Not defined",
+    0,
+    CONF_OFFSET(mmalcam_control_params),
+    copy_string,
+    print_string
+    },
+#endif
     {
     "auto_brightness",
     "# Let motion regulate the brightness of a video device (default: off).\n"
