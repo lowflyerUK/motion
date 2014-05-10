@@ -381,7 +381,7 @@ static void event_image_detect(struct context *cnt,
         mystrftime(cnt, filename, sizeof(filename), imagepath, currenttime_tm, NULL, 0);
         snprintf(fullfilename, PATH_MAX, "%s/%s.%s", cnt->conf.filepath, filename, imageext(cnt));
 
-        put_image(cnt, fullfilename, imgdat);
+        put_image(cnt, fullfilename, imgdat, FTYPE_IMAGE);
     }
 }
 
@@ -418,17 +418,11 @@ static void event_imagem_detect(struct context *cnt,
 
 static void event_image_snapshot(struct context *cnt,
             motion_event type ATTRIBUTE_UNUSED,
-            unsigned char *img, char *dummy1 ATTRIBUTE_UNUSED,
-            void *dummy2 ATTRIBUTE_UNUSED, struct tm *currenttime_tm)
+            unsigned char *dummy1 ATTRIBUTE_UNUSED, char * dummy2 ATTRIBUTE_UNUSED,
+            void *eventdata, struct tm *currenttime_tm)
 {
     char fullfilename[PATH_MAX];
-    char filename[PATH_MAX];
-    char filepath[PATH_MAX];
-    int offset = 0;
-    int len = strlen(cnt->conf.snappath);
-
-    if (len >= 9)
-        offset = len - 8;
+    struct image_data * imgdat = (struct image_data*) eventdata;
 
     if (strcmp(cnt->conf.snappath+offset, "lastsnap")) {
         char linkpath[PATH_MAX];
@@ -445,7 +439,7 @@ static void event_image_snapshot(struct context *cnt,
         mystrftime(cnt, filepath, sizeof(filepath), snappath, currenttime_tm, NULL, 0);
         snprintf(filename, PATH_MAX, "%s.%s", filepath, imageext(cnt));
         snprintf(fullfilename, PATH_MAX, "%s/%s", cnt->conf.filepath, filename);
-        put_picture(cnt, fullfilename, img, FTYPE_IMAGE_SNAPSHOT);
+        put_image(cnt, fullfilename, imgdat, FTYPE_IMAGE_SNAPSHOT);
 
         /*
          *  Update symbolic link *after* image has been written so that
@@ -464,7 +458,7 @@ static void event_image_snapshot(struct context *cnt,
         snprintf(filename, PATH_MAX, "%s.%s", filepath, imageext(cnt));
         snprintf(fullfilename, PATH_MAX, "%s/%s", cnt->conf.filepath, filename);
         remove(fullfilename);
-        put_picture(cnt, fullfilename, img, FTYPE_IMAGE_SNAPSHOT);
+        put_image(cnt, fullfilename, imgdat, FTYPE_IMAGE_SNAPSHOT);
     }
 
     cnt->snapshot = 0;
