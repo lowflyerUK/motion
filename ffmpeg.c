@@ -72,7 +72,15 @@
 #define URL_RDWR    AVIO_FLAG_READ_WRITE /**< read-write pseudo flag */
 #endif
 
+#define CODEC_ID_MSMPEG4V2 AV_CODEC_ID_MSMPEG4V2
+#define CODEC_ID_FLV1      AV_CODEC_ID_FLV1
+#define CODEC_ID_FFV1      AV_CODEC_ID_FFV1
+#define CODEC_ID_NONE      AV_CODEC_ID_NONE
+#define CODEC_ID_MPEG2VIDEO AV_CODEC_ID_MPEG2VIDEO
+#define CODEC_ID_H264      AV_CODEC_ID_H264
+#define CODEC_ID_HEVC      AV_CODEC_ID_HEVC
 
+#define CODEC_ID_MPEG1VIDEO AV_CODEC_ID_MPEG2VIDEO
 /*
  * Name of custom file protocol for appending to existing files instead
  * of truncating.
