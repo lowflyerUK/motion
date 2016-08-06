@@ -43,6 +43,7 @@ char *get_current_dir_name(void)
 #define stripnewline(x) {if ((x)[strlen(x)-1]=='\n') (x)[strlen(x) - 1] = 0; }
 
 struct config conf_template = {
+    thread_name:                    NULL,
     width:                          DEF_WIDTH,
     height:                         DEF_HEIGHT,
     quality:                        DEF_QUALITY,
@@ -211,6 +212,14 @@ config_param config_params[] = {
     CONF_OFFSET(setup_mode),
     copy_bool,
     print_bool
+    },
+    {
+    "thread_name",
+    "# name given to thread.  may be used with the specifier %E for filenames and such.n",
+    0,
+    CONF_OFFSET(thread_name),
+    copy_string,
+    print_string
     },
     {
     "logfile",
