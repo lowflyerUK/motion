@@ -22,6 +22,8 @@
 #include "picture.h"
 #include "rotate.h"
 
+#include "gperftools/profiler.h"
+
 /* Forward declarations */
 static int motion_init(struct context *cnt);
 static void motion_cleanup(struct context *cnt);
@@ -1186,6 +1188,10 @@ static void *motion_loop(void *arg)
      * Should go on forever... unless you bought vaporware :)
      */
 
+#ifdef _PROFILING
+    ProfilerStart("motion.prof");
+#endif
+
     while (!cnt->finish || cnt->makemovie) {
 
     /***** MOTION LOOP - PREPARE FOR NEW FRAME SECTION *****/
@@ -2228,6 +2234,10 @@ static void *motion_loop(void *arg)
             SLEEP(0, delay_time_nsec);
         }
     }
+
+#ifdef _PROFILING
+    ProfilerStop();
+#endif
 
     /*
      * END OF MOTION MAIN LOOP
