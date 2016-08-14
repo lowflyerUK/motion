@@ -1248,12 +1248,11 @@ static void *motion_loop(void *arg)
          * rate to 3fps to reduce load at higher framerates.
          */
         cnt->process_thisframe = 1;
-// Rate limit disabled as it doesn't help on Pi
-//        rate_limit++;
-//        if (rate_limit >= (cnt->lastrate / 3)) {
-//            rate_limit = 0;
-//            cnt->process_thisframe = 1;
-//        }
+        rate_limit++;
+        if (rate_limit >= (cnt->lastrate / 3)) {
+            rate_limit = 0;
+            cnt->process_thisframe = 1;
+        }
 
         /*
          * Since we don't have sanity checks done when options are set,
