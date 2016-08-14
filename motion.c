@@ -622,8 +622,8 @@ static void process_image_ring(struct context *cnt, unsigned int max_images)
                     while ((cnt->movie_last_shot + 1) < cnt->movie_fps) {
                         /* Add a filler frame into encoder */
                         event(cnt, EVENT_FFMPEG_PUT,
-                              cnt->imgs.image_ring[cnt->imgs.image_ring_out].image, NULL, NULL,
-                              NULL, NULL, &cnt->imgs.image_ring[cnt->imgs.image_ring_out],
+                              cnt->imgs.image_ring[cnt->imgs.image_ring_out].image,
+                              NULL, NULL,
                               &cnt->imgs.image_ring[cnt->imgs.image_ring_out].timestamp_tm);
 
                         cnt->movie_last_shot++;
