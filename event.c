@@ -422,7 +422,14 @@ static void event_image_snapshot(struct context *cnt,
             void *eventdata, struct tm *currenttime_tm)
 {
     char fullfilename[PATH_MAX];
+    char filename[PATH_MAX];
+    char filepath[PATH_MAX];
     struct image_data * imgdat = (struct image_data*) eventdata;
+    int offset = 0;
+    int len = strlen(cnt->conf.snappath);
+
+    if (len >= 9)
+        offset = len - 8;
 
     if (strcmp(cnt->conf.snappath+offset, "lastsnap")) {
         char linkpath[PATH_MAX];
