@@ -651,7 +651,7 @@ static void grey2yuv420p(unsigned char *u, unsigned char *v, int width, int heig
 
 static void event_ffmpeg_newfile(struct context *cnt,
             motion_event type ATTRIBUTE_UNUSED,
-            unsigned char *img, char *dummy1 ATTRIBUTE_UNUSED,
+            unsigned char *dummy1 ATTRIBUTE_UNUSED, char *dummy2 ATTRIBUTE_UNUSED,
             void *eventdata, struct tm *currenttime_tm)
 {
     struct image_data* imgdat = (struct image_data*) eventdata;
@@ -740,8 +740,8 @@ static void event_ffmpeg_newfile(struct context *cnt,
 }
 
 static void event_ffmpeg_timelapse(struct context *cnt,
-            motion_event type ATTRIBUTE_UNUSED, unsigned char *img,
-            char *dummy1 ATTRIBUTE_UNUSED, void *eventdata,
+            motion_event type ATTRIBUTE_UNUSED, unsigned char *dummy1 ATTRIBUTE_UNUSED,
+            char *dummy2 ATTRIBUTE_UNUSED, void *eventdata,
             struct tm *currenttime_tm)
 {
     struct image_data* imgdat = (struct image_data*)eventdata;
