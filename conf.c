@@ -160,6 +160,7 @@ struct config conf_template = {
     mmalcam_raw_capture_file:       NULL,
     mmalcam_buffer2_upscale:        0,
     mmalcam_buffer2_jpeg:           0,
+    output_both_pictures:           0,
 #endif
     text_changes:                   0,
     text_left:                      NULL,
@@ -505,6 +506,15 @@ config_param config_params[] = {
     CONF_OFFSET(mmalcam_raw_capture_file),
     copy_string,
     print_string
+    },
+    {
+    "output_both_pictures",
+    "# Output both primary and secondary pictures\n"
+    " Default: off",
+    0,
+    CONF_OFFSET(output_both_pictures),
+    copy_bool,
+    print_bool
     },
 #endif
     {

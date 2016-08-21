@@ -387,6 +387,24 @@ AC_CHECK_PROG([PKGCONFIG],[pkg-config],[yes],[no])
 AM_CONDITIONAL([FOUND_PKGCONFIG], [test "x$PKGCONFIG" = xyes])
 AM_COND_IF([FOUND_PKGCONFIG],,[AC_MSG_ERROR([Required package 'pkg-config' not found, please check motion_guide.html and install necessary dependencies.])])
 
+# Check for mmal (and should we also check that we are on - or for - a Raspberry Pi?)
+#
+HAVE_MMAL=""
+USERLANDPATH="/home/$USER/userland"
+
+if test -d ${USERLANDPATH}; then
+       HAVE_MMAL="yes"
+fi
+
+AS_IF([test "${HAVE_MMAL}" = "yes" ], [
+           AC_SUBST(MMAL_CFLAGS)
+           AC_SUBST(MMAL_OBJ)
+           AC_SUBST(MMAL_LIBS)
+           MMAL_OBJ="mmalcam.o mmaloutput.o RaspiCamControl.o RaspiCLI.o"
+           MMAL_CFLAGS="-std=gnu99 -DHAVE_MMAL -I${USERLANDPATH} -I${USERLANDPATH}/interface/vcos -I${USERLANDPATH}/interface/vcos/pthreads -I${USERLANDPATH}/interface/vmcs_host/linux -I${USERLANDPATH}/interface/vmcs_host -I${USERLANDPATH}/host_applications/linux/libs/bcm_host/include"
+           MMAL_LIBS="-L/opt/vc/lib -lbcm_host -lvcos -lvchiq_arm -lmmal_core -lmmal_util -lmmal_vc_client -lavutil -lavformat -lavcodec -lswscale"
+           AC_DEFINE([HAVE_MMAL], 1, [Define to 1 if we want MMAL])
+])
 
 #
 # Check for libavcodec and libavformat from ffmpeg
@@ -1123,7 +1141,6 @@ else
 	fi
 fi
 
-
 AC_SUBST(BIN_PATH)
 
 AC_CONFIG_FILES([
@@ -1210,6 +1227,16 @@ if test "${SDL_SUPPORT}" = "yes"; then
 	echo "SDL support:         Yes"
 else
 	echo "SDL support:         No"
+fi
+
+if test "${HAVE_MMAL}" = "yes"; then
+    echo "MMAL support:        Yes"
+    echo " ... MMAL_CFLAGS: $MMAL_CFLAGS"
+    echo " ... MMAL_OBJ: $MMAL_OBJ"
+    echo " ... MMAL_LIBS: $MMAL_LIBS"
+else
+    echo "MMAL support:        No"
+    echo " ... userland not found"
 fi
 
 if test "${HAVE_FFMPEG}" = "yes"; then

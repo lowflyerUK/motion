@@ -140,6 +140,7 @@ struct config {
     int mmalcam_buffer2_upscale;
     const char *mmalcam_raw_capture_file;
     int mmalcam_buffer2_jpeg;
+    int output_both_pictures;
 #endif
     int text_changes;
     const char *text_left;
