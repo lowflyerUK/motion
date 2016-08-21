@@ -31,16 +31,16 @@ examplesdir = $(datadir)/@PACKAGE_NAME@/examples
 # These variables contain compiler flags, object files to build and files to   #
 # install.                                                                     #
 ################################################################################
-CFLAGS       = @CFLAGS@ -Wall -DVERSION=\"@PACKAGE_VERSION@\" -Dsysconfdir=\"$(sysconfdir)\" @FFMPEG_CFLAGS@
+CFLAGS       = @CFLAGS@ -Wall -DVERSION=\"@PACKAGE_VERSION@\" -Dsysconfdir=\"$(sysconfdir)\" @FFMPEG_CFLAGS@ @MMAL_CFLAGS@
 LDFLAGS      = @LDFLAGS@
-LIBS         = @LIBS@  @FFMPEG_LIBS@
+LIBS         = @LIBS@  @MMAL_LIBS@ @FFMPEG_LIBS@
 VIDEO_OBJ    = @VIDEO@
 OBJ          = motion.o logger.o conf.o draw.o jpegutils.o vloopback_motion.o $(VIDEO_OBJ) \
 			   netcam.o netcam_ftp.o netcam_jpeg.o netcam_wget.o track.o \
 			   alg.o event.o picture.o rotate.o webhttpd.o \
 			   stream.o md5.o netcam_rtsp.o \
 			   videosourceplugin.o filecam.o metrics.o utils.o \
-			   @FFMPEG_OBJ@ @SDL_OBJ@
+			   @FFMPEG_OBJ@ @MMAL_OBJ@ @SDL_OBJ@
 SRC          = $(OBJ:.o=.c)
 DOC          = CHANGELOG COPYING CREDITS README motion_guide.html
 EXAMPLES     = *.conf
