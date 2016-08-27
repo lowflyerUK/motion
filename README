@@ -1,28 +1,3 @@
-MMAL README
------------
-This is an experimental version of motion that adds support for the
-Raspberry Pi's CSI camera module, via the MMAL API.
-
-As such, this branch has been stripped down to just the code and
-some supporting files, and does not at this time contain a means
-to build the code. Generated code files have been pre-created
-using the original's configure script (see config.h).
-
-Downloading: a temporary prebuilt binary for Raspberry Pi is available at this link:
-https://www.dropbox.com/s/jw5r1wss32tdibb/motion-mmal-opt.tar.gz
-
-Known working resolutions:
-
-	352 x 288
-	512 x 288
-	640 x 480
-	768 x 432
-	768 x 576
-	1024 x 576
-	
-
-Original README text
---------------------
 Motion up to version 3.1.8 was created and maintained by Jeroen Vreeken.
 Versions 3.1.9-3.1.12 was maintained by Kenneth Lavrsen (http://www.lavrsen.dk/)
 and Folkert van Heusden (http://www.vanheusden.com/).

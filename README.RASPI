@@ -1,0 +1,79 @@
+INTRODUCTION
+------------
+This file describes how to build the MMAL extension of motion for a Raspberry Pi with camera module.
+
+The MMAL extension was originally created by Dozencrows. It makes use of the direct and very efficient connection between the camera and the Graphics Processing Module (GPU) of the Raspberry Pi.
+The overall effect is that the processing load on the Raspberry Pi CPU can be reduced. Two versions of the incoming images are created, one at normal resolution and one at high resolution.
+The motion detection is done at the lower resolution (width and height in the config file). Secondary pictures and movies are available that are upscaled (by the factor mmalcam_secondary_buffer_upscale in the config file). For example with:
+
+   width                            640
+   height                           480
+   mmalcam_name                     vc.ril.camera
+   mmalcam_use_still                off
+   mmalcam_secondary_buffer_jpeg    50
+   mmalcam_secondary_buffer_upscale 3
+
+the processing is done at 640x480 pixels and secondary pictures and movies are available at 1920x1440 pixels.
+
+The MMAL extension doesn't use /dev/video0. There is no point in using it unless you have the camera module.
+
+DEPENDENCIES
+------------
+As well as the standard dependencies for motion with FFMPEG, it needs the Pi's VideoCore libraries and the Pi userland source files - both made available by Broadcom/The Raspberry Pi Foundation.
+
+The Pi's VideoCore libraries are already installed in the raspbian jessie images or can be installed (under /opt/vc/lib) by updating a Raspbian install, or from the Pi GitHub firmware repository (https://github.com/raspberrypi/firmware).
+
+The Pi userland source files can be downloaded from the Pi GitHub (https://github.com/raspberrypi/userland).
+
+BUILDING ON A PI (as of 27th August 2016)
+-----------------------------------------
+Create SD card with rasbian jessie (either full or lite).
+sudo raspi-config [and do at least the following:
+  expand filesystem
+  change password
+  enable camera
+  Advanced Options/Memory Split 256 (if you want to use high resolutions)]
+sudo apt-get update
+sudo apt-get upgrade
+sudo shutdown -r now
+sudo apt-get install git
+sudo apt-get install autoconf
+sudo apt-get install libjpeg-dev
+sudo apt-get install libavutil-dev libavformat-dev libavcodec-dev libswscale-dev
+
+git clone https://github.com/raspberrypi/userland
+git clone https://github.com/Motion-Project/motion.git [or wherever the version is that you want]
+cd motion
+[git checkout *branch-name* if you need to change the branch]
+autoreconf -fiv
+./configure
+make
+
+If all went well, you can run the freshly compiled motion with
+./motion -c mmal-motion-both.conf
+Edit the config file according to your needs.
+
+CROSS-COMPILING
+---------------
+To be completed...
+
+You'll need an ARM cross compilation toolchain that supports the Pi's ARM architecture - you could get that from the Pi GitHub (https://github.com/raspberrypi/tools) into the local folder /opt/cross/Pi.
+
+You'll also need a copy of /lib, /opt and /usr from the Pi's Raspbian root file system with the above dependencies installed - rsync is good to use for copying these, but may take some time.
+
+Cross-compilation requires some additional environment variables to be provided when cmake is run:
+
+	TOOLPREFIX	ARM cross-compiler tool name prefixes - e.g. arm-linux-gnueabi-hf-
+	TOOLPATH	Path to cross compiler root - e.g. /opt/cross/Pi/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian
+	ROOTFSPATH	Path to copy of Pi root file system on cross compilation system, e.g. /opt/cross/Pi/rootfs
+
+TO DO
+-----
+Integrate the mmal config file into autoconf
+Test lots of combinations
+Add checks for correct image sizes (multiples of 16 or 32?)
+Modify the configure script to check for updates in VideoCore and userland and issue warning.
+Find a way of using the 4 userland source files directly (RaspiCLI.c, RaspiCLI.h, RaspiCamControl.c and RaspiCamControl.h). Note that RaspiCamControl.h has to be modified (why??).
+
+lowflyerUK
+With many thanks and admiration to dozencrows
